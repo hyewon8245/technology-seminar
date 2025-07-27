@@ -1,6 +1,7 @@
 package com.fintech.loan.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fintech.loan.domain.dto.ProductPopularityDTO;
 import com.fintech.loan.service.LoanDBService;
 
 @RestController
@@ -27,7 +27,7 @@ public class ProductViewController {
         return "View recorded for productId: " + productId;
     }
     @GetMapping("/popular-products")
-    public List<ProductPopularityDTO> getPopularProducts() {
+    public List<Map<String, Object>> getPopularProducts() {
         return loanDBService.getTopPopularProducts(10);
     }
 

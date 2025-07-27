@@ -41,6 +41,9 @@ public class CacheManagementService {
             cacheManager.getCache("popularProducts").clear();
             loanDBService.getTopPopularProducts(50); // 새로운 인기도 순위 계산
             
+            // 3. Redis ZSET 오래된 데이터 정리
+            loanDBService.cleanupOldRedisData();
+            
             log.info("Cache cleanup completed successfully");
             
         } catch (Exception e) {
@@ -61,7 +64,8 @@ public class CacheManagementService {
      */
     public void removeProductFromCache(Long productId) {
         cacheManager.getCache("productDetails").evict(productId);
-        log.info("Product {} manually removed from cache", productId);
+        loanDBService.removeProductViewData(productId); // Redis ZSET에서도 제거
+        log.info("Product {} manually removed from cache and Redis", productId);
     }
 
     /**
@@ -72,5 +76,12 @@ public class CacheManagementService {
             cacheManager.getCache(cacheName).clear();
             log.info("Cleared cache: {}", cacheName);
         });
+    }
+
+    /**
+     * Redis ZSET 통계 정보 조회
+     */
+    public Object getRedisStats() {
+        return loanDBService.getRedisStats();
     }
 } 
