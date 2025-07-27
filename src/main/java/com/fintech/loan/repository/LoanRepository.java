@@ -7,5 +7,5 @@ import com.fintech.loan.domain.entity.Loan;
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Long>{
-	
+
 }

@@ -12,4 +12,9 @@ public class DBController {
 	public Loan getOracleData() {
 		return null;
 	}
+	@GetMapping("/oracledb")
+	public Loan getOracleDB() {
+		return null;
+    }
+
 }
