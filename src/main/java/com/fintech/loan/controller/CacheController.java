@@ -54,5 +54,13 @@ public class CacheController {
     	loanCacheService.incrementViewCount(loanId);
     	return loanCacheService.getLoanCheckCache(loanId);
     }
+    
+    /** 단일 Loan 상세 조회 (Cache-Aside) */
+    //LRU기반으로 상세 조회가 될 예정임
+    @GetMapping("/detail2/{loanId}")	//ok
+    public LoanDTO getLoanDetail2(@PathVariable Long loanId) {
+    	loanCacheService.incrementViewCount2(loanId);
+    	return loanCacheService.getLoanCheckCache2(loanId);
+    }
 
 }
