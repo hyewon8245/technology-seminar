@@ -16,7 +16,7 @@ public class LoanScheduler {
     private final LoanCacheService loanCacheService;
 
     // 오전 6시 ~ 오후 11시 59분: 10분마다 인기순위 갱신
-    //@Scheduled(cron = "0 */1 * * * *") //1분에 한번
+    @Scheduled(cron = "0 */1 * * * *") //1분에 한번
     public void updatePopularLoansDaytime() {
         log.info("🌞 [주간] 인기 상품 갱신");
         //loanCacheService.updatePopularLoans();

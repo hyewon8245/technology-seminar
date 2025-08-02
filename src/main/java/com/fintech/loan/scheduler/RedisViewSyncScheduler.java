@@ -21,13 +21,13 @@ public class RedisViewSyncScheduler {
 
     private static final String DATA_KEY  = "loan:loanData";
     private static final String LOAN_KEY_PREFIX = "loan:";
-    private static final double DECAY_FACTOR = 0.9;   // 점수 감소 비율
-    private static final double MIN_SCORE = 50;       // 최소 점수 이하 삭제 기준
+    private static final double DECAY_FACTOR = 0.85;   // 점수 감소 비율
+    private static final double MIN_SCORE = 1;       // 최소 점수 이하 삭제 기준
 
     /**
      * 30분마다 조회수 감쇠 + 낮은 점수 삭제
      */
-    //@Scheduled(cron = "0 */30 * * * *")
+    //@Scheduled(cron = "0 */3 * * * *")
     //@Scheduled(cron = "0 */1 * * * *")	//1분에 한번
     public void decayAndEvict() {
         log.info("🔄 ZSet Decay + Low-Weight 삭제 시작");
