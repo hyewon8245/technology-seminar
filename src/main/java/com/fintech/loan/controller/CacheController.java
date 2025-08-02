@@ -48,11 +48,39 @@ public class CacheController {
 //        return loanCacheService.getLoanCheckCache(loanId);
 //    }
 
-    /** 단일 Loan 상세 조회 (Cache-Aside) */
+    /** 단일 Loan 상세 조회 (Cache-Aside with TTL) */
     @GetMapping("/detail/{loanId}")	//ok
     public LoanDTO getLoanDetail(@PathVariable Long loanId) {
     	loanCacheService.incrementViewCount(loanId);
     	return loanCacheService.getLoanCheckCache(loanId);
     }
+    
+
+    
+    /** 캐시 상태 확인 */
+    @GetMapping("/status/{loanId}")
+    public ResponseEntity<?> getCacheStatus(@PathVariable Long loanId) {
+        String cacheKey = "loan:" + loanId;
+        Boolean hasKey = redisTemplate.hasKey(cacheKey);
+        Long ttl = redisTemplate.getExpire(cacheKey);
+        
+        Map<String, Object> status = Map.of(
+            "loanId", loanId,
+            "cacheExists", hasKey != null ? hasKey : false,
+            "ttlSeconds", ttl != null ? ttl : -1,
+            "ttlMinutes", ttl != null ? ttl / 60 : -1
+        );
+        
+        return ResponseEntity.ok(status);
+    }
+    
+    /** 모든 캐시 키 조회 */
+    @GetMapping("/keys")
+    public ResponseEntity<?> getAllCacheKeys() {
+        Set<String> keys = redisTemplate.keys("loan:*");
+        return ResponseEntity.ok(Map.of("cacheKeys", keys != null ? keys : Set.of()));
+    }
+    
+
 
 }
