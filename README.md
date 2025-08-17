@@ -176,7 +176,9 @@ JMeter를 사용하여 4,500건의 요청을 대상으로 성능 테스트를 �
 
 **결론**: Redis 캐싱으로 응답 속도가 3배 향상되고, 네트워크 부하도 감소하여 더 많은 TPS 처리가 가능합니다.
 
-> 📸 **[사진 1]**: JMeter 성능 테스트 결과 화면 (Redis vs Oracle DB 비교)
+> 📸 JMeter 성능 테스트 결과 화면 (Redis vs Oracle DB 비교)
+<img width="1357" height="469" alt="image" src="https://github.com/user-attachments/assets/b2decf8c-cd9e-465f-b512-f3537bc79cac" />
+<img width="1299" height="427" alt="image" src="https://github.com/user-attachments/assets/57ed23fb-dd90-47db-8fed-4b37d5278e88" />
 
 ### 🎯 캐시 전략별 성능 분석
 
@@ -212,7 +214,8 @@ private static final double DECAY_FACTOR = 0.85;   // 최적화된 감쇠 계수
 - **중반**: 트렌드 변화로 인한 캐시 히트율 일시적 감소
 - **후반**: 감쇠 + 갱신 전략으로 빠른 캐시 히트율 복구
 
-> 📸 **[사진 2]**: 트렌드 변화 시나리오 테스트 결과 그래프 (캐시 히트율 변화)
+> 📸 트렌드 변화 시나리오 테스트 결과 그래프 (캐시 히트율 변화)
+<img width="1060" height="519" alt="image" src="https://github.com/user-attachments/assets/5dd29851-99cc-43fb-a487-dac6a932c5a3" />
 
 ### 💾 메모리 사용량 분석
 
@@ -220,7 +223,8 @@ private static final double DECAY_FACTOR = 0.85;   // 최적화된 감쇠 계수
 - **단순 갱신**: 주기적 메모리 변동 패턴
 - **갱신 + 감쇠**: 빠른 변동 주기, 상대적으로 높은 메모리 점유율
 
-> 📸 **[사진 3]**: 메모리 사용량 분석 그래프 (각 전략별 비교)
+> 📸 메모리 사용량 분석 그래프 (각 전략별 비교)
+<img width="1058" height="517" alt="image" src="https://github.com/user-attachments/assets/ab8c97c4-41f5-4ce9-8585-d1dc85572603" />
 
 ### ⚡ 초당 명령어 처리량
 
@@ -228,7 +232,8 @@ private static final double DECAY_FACTOR = 0.85;   // 최적화된 감쇠 계수
 - **감쇠 시점**: 작은 피크 발생
 - **TTL**: 초반 높은 처리율, 키 감소에 따른 처리율 감소
 
-> 📸 **[사진 4]**: 초당 명령어 처리량 그래프 (각 전략별 비교)
+> 📸 초당 명령어 처리량 그래프 (각 전략별 비교)
+<img width="1055" height="513" alt="image" src="https://github.com/user-attachments/assets/cf6c68d6-9f54-4c56-8c56-609a674a4976" />
 
 ## 🎯 핵심 문제 해결
 
