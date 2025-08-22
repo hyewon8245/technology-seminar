@@ -49,7 +49,7 @@ public class LoanCacheService {
             zSetOps.incrementScore(DATA_KEY, loanId, 1.0);
         }
     }
-
+ 
     public List<LoanDTO> getTop20Loans() {
         ZSetOperations<String, Object> zSetOps = redisTemplate.opsForZSet();
         ValueOperations<String, Object> valueOps = redisTemplate.opsForValue();
@@ -138,8 +138,11 @@ public class LoanCacheService {
                     "periodMonths", loan.getPeriodMonths()
             );
 
-            valueOps.set(LOAN_KEY_PREFIX + loanId, loanCache);
-            log.info("✅ 캐싱 완료 loanId={}", loanId);
+//            valueOps.set(LOAN_KEY_PREFIX + loanId, loanCache);
+//            log.info("✅ 캐싱 완료 loanId={}", loanId);
+             // TTL 설정 (분)
+             valueOps.set(LOAN_KEY_PREFIX + loanId, loanCache, java.time.Duration.ofMinutes(2));
+             log.info("✅ 캐싱 완료 loanId={} (TTL: 2분)", loanId);
         }
     }
 
@@ -178,7 +181,10 @@ public class LoanCacheService {
         // ✅ Cache HIT
         log.info("✅ Cache HIT: loanId={}", loanId);
         meterRegistry.counter("loan_cache_hit").increment(); // ✅ HIT 카운터
-       
+        
+        // TTL 재갱신 (분)
+        valueOps.set(LOAN_KEY_PREFIX + loanId, loanCache, java.time.Duration.ofMinutes(2));
+        log.info("🔄 TTL 재갱신 완료: loanId={} (TTL: 2분)", loanId);
 
         Double score = zSetOps.score(DATA_KEY, loanId);
         long viewCount = (score != null) ? score.longValue() : 0L;
